@@ -6,7 +6,7 @@ from splitwise_oauth.expense_manager import SplitwiseOAuthManager
 html_response = """<!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>SBI SplitEasy Bot Home</title>
+  <title>Authorization Status</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -16,9 +16,8 @@ html_response = """<!DOCTYPE html>
 <body>
 
 <div class="jumbotron text-center">
-  <h2>Hello SplitEasy bot user. Your Splitwise authorization is successful !</h2>
+  <h2>Your Splitwise authorization is successful !</h2>
   <p>Go back to your bot and enjoy</p>
-  <p>Your access token = ##ACCESS## </p>
 </div>
 
 </body>
@@ -58,6 +57,7 @@ class SplitwiseCallbackHandler(object):
         sauth = SplitwiseOAuthManager(auth_token=query_params['oauth_token'])
         access_token = sauth.request_access_token(query_params['oauth_verifier'])
         logger.info("Access token obtained %s" % repr(access_token))
-        response = html_response.replace("##ACCESS##", str(access_token))
-        return response
+        #response = html_response.replace("##ACCESS##", str(access_token))
+        response = html_response
+	return response
 
