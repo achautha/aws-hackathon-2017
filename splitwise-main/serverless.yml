@@ -1,0 +1,30 @@
+#Serverless configuration file
+
+service: splitwise-main
+
+provider:
+  name: aws
+  runtime: python2.7
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:us-east-1:625839833646:table/*"
+
+package:
+  exclude:
+    - node_modules/**
+    - venv/**
+
+functions:
+  lambda_handler:
+    handler: splitwise_main/handler.lambda_handler
+
+plugins:
+  - serverless-python-requirements

@@ -1,0 +1,6 @@
+*.pyc
+*.pyo
+*.log
+venv
+.serverless
+splitwise-main/node_modules
