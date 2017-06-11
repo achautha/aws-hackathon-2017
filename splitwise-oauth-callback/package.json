@@ -1,0 +1,10 @@
+{
+  "name": "splitwise-oauth-callback",
+  "version": "1.0.0",
+  "description": "Callback function to handler splitwise callback",
+  "author": "",
+  "license": "Apache License Version 2.0",
+  "dependencies": {
+    "serverless-python-requirements": "^2.0.0-beta.6"
+  }
+}

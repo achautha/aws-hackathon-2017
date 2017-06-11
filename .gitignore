@@ -4,3 +4,4 @@
 venv
 .serverless
 splitwise-main/node_modules
+.requirements

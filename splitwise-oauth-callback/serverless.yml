@@ -1,0 +1,34 @@
+#Serverless configuration file
+
+service: splitwise-oauth-callback
+
+provider:
+  name: aws
+  runtime: python2.7
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:us-east-1:625839833646:table/*"
+
+package:
+  exclude:
+    - node_modules/**
+    - venv/**
+
+functions:
+  lambda_handler:
+    handler: splitwise_oauth/handler.lambda_handler
+    events:
+      - http:
+          path: oauth/callback
+          method: get
+
+plugins:
+  - serverless-python-requirements
