@@ -84,32 +84,46 @@ def get_token_from_db(userId):
     sauth = SplitwiseOAuthManager(userId)
     return sauth.get_access_token()
 
+def login_attempts(intent, first=True):
+    if first:
+	intent['sessionAttributes']['login_attempts'] = 1
+	return 1
+    else:
+        attmp = intent['sessionAttributes']['login_attempts'] 
+    	attmp = int(attmp) + 1
+        intent['sessionAttributes']['login_attempts'] = attmp
+	return attmp
 
 def is_logged_in(userid, intent):
     # here goto dynamodb to see if token is present
     token = None
+    attemtps = 0 
     if intent['sessionAttributes']:
         logger.info("session attrs are not empty")
         token = intent['sessionAttributes'].get('access_token', None)
         if not token:
             token = get_token_from_db(userid)
-            intent['sessionAttributes']['access_token'] = str(token)
+            intent['sessionAttributes']['access_token'] = str(token) if token else None
+	attempts = login_attempts(intent, first=False)
     else:
         logger.info("session attrs are empty")
         token = get_token_from_db(userid)
-        intent['sessionAttributes'] = { 'access_token' : str(token) }
+        token = str(token) if token else None
+        intent['sessionAttributes'] = { 'access_token' : token }
+	attempts = login_attempts(intent, first=True)
+    return token, attempts
 
-    return token
-
-
+'''
 def prompt_for_login(intent):
     if not is_logged_in(intent['userId'], intent):
+	
         logger.info('Token is not present. Now asking for login confirmation with %s' % intent)
         return confirm_intent(intent['sessionAttributes'],
                               intent['currentIntent']['name'],
                               get_slots(intent),
                               initiate_oauth(intent['userId']))
     return None
+'''
 
 def get_slots(intent_request):
     return intent_request['currentIntent']['slots']
