@@ -27,6 +27,37 @@ def close(session_attributes, fulfillment_state, message):
 
     return response
 
+
+def confirm_intent(session_attributes, intent_name, slots, message):
+    return {
+        'sessionAttributes': session_attributes,
+        'dialogAction': {
+            'type': 'ConfirmIntent',
+            'intentName': intent_name,
+            'slots': slots,
+            'message': message,
+	    "responseCard": {
+      	        "version": 1,
+                "contentType": "application/vnd.amazonaws.card.generic",
+                "genericAttachments": [
+                {
+                    "title":"Splitwise OAuth initiation",
+                    "subTitle":"Use below url to initiate Splitwise authorization",
+                    "imageUrl": "https://s3.amazonaws.com/lex-box/ice-tea.jpeg",
+                    "attachmentLinkUrl": "https://s3.amazonaws.com/lex-box/ice-tea.html",
+                    "buttons":[ 
+                    {
+                       "text":"click on this url ",
+                       "value":"intent_name"
+                    }
+                    ] 
+                 } 
+               ] 
+            }
+      }
+    }
+    
+'''
 def confirm_intent(session_attributes, intent_name, slots, message):
     return {
         'sessionAttributes': session_attributes,
@@ -37,6 +68,7 @@ def confirm_intent(session_attributes, intent_name, slots, message):
             'message': message
         }
     }
+'''
 
 def initiate_oauth(userId):
     sauth = SplitwiseOAuthManager(userId)
