@@ -26,6 +26,25 @@ class SplitwiseAccountmanager(object):
         self.sauth.splitwise_handle.setAccessToken(access_token)
         return self.sauth.splitwise_handle.getCurrentUser()
 
+    def create_group(self, name):
+        access_token = self.sauth.get_access_token()
+        self.sauth.splitwise_handle.setAccessToken(access_token)
+        return self.sauth.splitwise_handle.createGroup(name)
+
+    def add_user_to_group(self, first_name, last_name, email, group_id):
+        access_token = self.sauth.get_access_token()
+        self.sauth.splitwise_handle.setAccessToken(access_token)
+        return self.sauth.splitwise_handle.addUserToGroup(first_name, last_name, email, group_id)
+
+    def get_group_id(self, group_name):
+        access_token = self.sauth.get_access_token()
+        self.sauth.splitwise_handle.setAccessToken(access_token)
+        groups = self.sauth.splitwise_handle.getGroups()
+        for g in groups:
+            logger.info("Group Id {}, Group Name {}".format(g.id, g.getName()))
+            if g.getName() == group_name:
+                return g.id
+
 
 class SplitwiseOAuthManager(object):
     CONSUMER_KEY = 'fACzGnELB2PJ9yj00KFhamAEXARtq4HNXKkc2649'
@@ -169,4 +188,5 @@ if __name__ == '__main__':
     #get_friends({u'oauth_token_secret': u'88VUx9FMf85JaB81evq5zMqWSs5zB8wQ773B2lIh',
     #             u'oauth_token': u'3cxfHmS2Kma7wbiwTDL7ix4Th2eXFI5sykCL5qM7'})
     #test_get_current_user()
+
 

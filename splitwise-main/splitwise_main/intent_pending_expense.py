@@ -1,5 +1,6 @@
-from splitwise_main.util import *
 from splitwise_main.expense_manager import SplitwiseAccountmanager
+from splitwise_main.util import *
+
 
 def calculate_pending_expenses(userId):
     smgr = SplitwiseAccountmanager(userId=userId)
@@ -19,32 +20,33 @@ def calculate_pending_expenses(userId):
     result = "You owe " + ", ".join(pending_exp)
     return result
 
+
 def intent_pending_expenses(intent):
     # Check if logged In
     if intent['invocationSource'] == 'DialogCodeHook':
         slots = get_slots(intent)
         if intent['currentIntent']['confirmationStatus'] == 'Denied':
-	    return close(intent['sessionAttributes'], 'Failed',
-		         {'contentType': 'PlainText',
-                  	  'content': 'Sorry unable to proceed with your request'})   
-		 
-	token, attem = is_logged_in(intent['userId'], intent)
-	if not token:
-	    if attem > 3:
-		intent['sessionAttributes']['login_attempts'] = 0
-            	logger.info('Login attempts exceeded. Fail request')
-	    	return close(intent['sessionAttributes'], 'Failed',
-		         {'contentType': 'PlainText',
-                  	  'content': 'Number of login attempts exceeded. Please check your splitwise credentials'})   
-			
+            return close(intent['sessionAttributes'], 'Failed',
+                         {'contentType': 'PlainText',
+                          'content': 'Sorry unable to proceed with your request'})
+
+        token, attem = is_logged_in(intent['userId'], intent)
+        if not token:
+            if attem > 3:
+                intent['sessionAttributes']['login_attempts'] = 0
+                logger.info('Login attempts exceeded. Fail request')
+                return close(intent['sessionAttributes'], 'Failed',
+                             {'contentType': 'PlainText',
+                              'content': 'Number of login attempts exceeded. Please check your splitwise credentials'})
+
             logger.info('Token is not present. Now asking for login confirmation with %s' % intent)
             return confirm_intent(intent['sessionAttributes'],
-                              intent['currentIntent']['name'],
-                              get_slots(intent),
-                              initiate_oauth(intent['userId']))
+                                  intent['currentIntent']['name'],
+                                  get_slots(intent),
+                                  initiate_oauth(intent['userId']))
         else:
             # Do other validation yourself or delegate other validations to BOT
-            return delegate(intent['sessionAttributes'], get_slots(intent) )
+            return delegate(intent['sessionAttributes'], get_slots(intent))
 
     # Fulfill request
     fulfilment_result = calculate_pending_expenses(intent['userId'])
