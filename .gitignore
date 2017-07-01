@@ -4,4 +4,5 @@
 venv
 .serverless
 splitwise-main/node_modules
+splitwise-oauth-callback/node_modules
 .requirements
