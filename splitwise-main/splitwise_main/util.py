@@ -27,7 +27,7 @@ def close(session_attributes, fulfillment_state, message):
 
     return response
 
-
+'''
 def confirm_intent(session_attributes, intent_name, slots, message):
     return {
         'sessionAttributes': session_attributes,
@@ -58,6 +58,7 @@ def confirm_intent(session_attributes, intent_name, slots, message):
     }
     
 '''
+
 def confirm_intent(session_attributes, intent_name, slots, message):
     return {
         'sessionAttributes': session_attributes,
@@ -68,7 +69,6 @@ def confirm_intent(session_attributes, intent_name, slots, message):
             'message': message
         }
     }
-'''
 
 def initiate_oauth(userId):
     sauth = SplitwiseOAuthManager(userId)

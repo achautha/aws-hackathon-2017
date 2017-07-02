@@ -36,7 +36,7 @@ def calc_pending_expenses_for_friend(userId, friend):
     else:
         your_exp = "{} owe you {}. ".format(friend, ",".join(from_friend))
 
-    return str((frnd_exp, your_exp))
+    return "{}\n\n{}".format(frnd_exp, your_exp)
     	
 def calculate_pending_expenses_for_group(userId, group):
     smgr = SplitwiseAccountmanager(userId=userId)
@@ -48,7 +48,7 @@ def calculate_pending_expenses_for_group(userId, group):
     for debt in mygroup.simplified_debts:
         group_exp.append("{} owes {} {} {}. ".format(smgr.get_user(debt.fromUser).first_name, smgr.get_user(debt.toUser).first_name,
                                         debt.currency_code, debt.amount))
-    return ",  ".join(group_exp)
+    return "Expense report for group {}:\n\n{}".format(group, ",\n".join(group_exp))
 
 def fulfil_request(userId, slots):
     if slots.get('friendOrGroup', None):
@@ -80,15 +80,15 @@ def calculate_pending_expenses(userId):
     if not you_owe:
         frnd_exp = "You owe nothing."
     else:
-        frnd_exp = "You owe {}. ".format(",    ".join(you_owe))
+        frnd_exp = "You owe: \n{}".format(",\n".join(you_owe))
 
     your_exp= None
     if not friends_owe:
         your_exp = "Friends owe you nothing."
     else:
-        your_exp = "Friends owe you:  {} ".format( ",    ".join(friends_owe))
+        your_exp = "Friends owe you:\n{} ".format( ",\n".join(friends_owe))
 
-    return "[{}].   [{}].".format(frnd_exp, your_exp)
+    return "\n{}\n   \n{}\n".format(frnd_exp, your_exp)
 
 def intent_pending_expenses(intent):
     # Check if logged In
