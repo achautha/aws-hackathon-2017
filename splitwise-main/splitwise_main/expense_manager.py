@@ -26,6 +26,21 @@ class SplitwiseAccountmanager(object):
         self.sauth.splitwise_handle.setAccessToken(access_token)
         return self.sauth.splitwise_handle.getCurrentUser()
 
+    def get_user(self, user):
+        access_token = self.sauth.get_access_token()
+        self.sauth.splitwise_handle.setAccessToken(access_token)
+        return self.sauth.splitwise_handle.getUser(user)
+
+    def get_group(self, groupName):
+
+        access_token = self.sauth.get_access_token()
+        self.sauth.splitwise_handle.setAccessToken(access_token)
+        groups = self.sauth.splitwise_handle.getGroups()
+        for g in groups:
+            if g.name.lower() ==  groupName.lower():
+                return g
+        return None
+
 
 class SplitwiseOAuthManager(object):
     CONSUMER_KEY = 'fACzGnELB2PJ9yj00KFhamAEXARtq4HNXKkc2649'
