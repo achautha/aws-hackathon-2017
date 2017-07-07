@@ -55,11 +55,13 @@ def _export_slot_types(intent, tmp_dir=None):
     slots = intent_out['slots']
     for s in slots:
         stype = s['slotType']
-        slot_type_out = client.get_slot_type(name=stype, version=s['slotTypeVersion'])
-        fix_dates(slot_type_out)
-        slot_json_file = "{}_{}.json".format(stype, s['slotTypeVersion'])
-        dump_json(slot_type_out, slot_json_file, tmp_dir, "slots")
-
+	if 'slotTypeVersion' in s:
+            slot_type_out = client.get_slot_type(name=stype, version=s['slotTypeVersion'])
+            fix_dates(slot_type_out)
+            slot_json_file = "{}_{}.json".format(stype, s['slotTypeVersion'])
+            dump_json(slot_type_out, slot_json_file, tmp_dir, "slots")
+        else:
+            print 'Ignore Built-in slot type {}'.format(stype) 
 
 def export_all(name, version="$LATEST", tmp_dir=None):
     print "Exporting bot {} version {}".format(name, version)
