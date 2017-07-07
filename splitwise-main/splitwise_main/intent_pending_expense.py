@@ -43,7 +43,7 @@ def calculate_pending_expenses_for_group(userId, group):
     group_exp = []
     mygroup = smgr.get_group(group)
     if not mygroup:
-	return "group {} does not exist in your account"
+	return "group {} does not exist in your account".format(group)
 
     for debt in mygroup.simplified_debts:
         group_exp.append("{} owes {} {} {}. ".format(smgr.get_user(debt.fromUser).first_name, smgr.get_user(debt.toUser).first_name,
