@@ -48,6 +48,9 @@ def calculate_pending_expenses_for_group(userId, group):
     for debt in mygroup.simplified_debts:
         group_exp.append("{} owes {} {} {}. ".format(smgr.get_user(debt.fromUser).first_name, smgr.get_user(debt.toUser).first_name,
                                         debt.currency_code, debt.amount))
+    if not group_ex:
+        return "No expenses created in this group"
+
     return "Expense report for group {}:\n\n{}".format(group, ",\n".join(group_exp))
 
 def fulfil_request(userId, slots):

@@ -1,4 +1,5 @@
 from splitwise_main.intent_pending_expense import process_intent as pending_ex
+from splitwise_main.intent_greet import process_intent as greet
 import logging
 logging.basicConfig()
 logger = logging.getLogger()
@@ -7,6 +8,7 @@ logger.setLevel(logging.INFO)
 
 intent_map ={
     'PendingExpenses' : pending_ex,
+    'SplitSmartHelp' : greet,
 }
 
 
