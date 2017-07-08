@@ -65,7 +65,6 @@ class SplitwiseAccountmanager(object):
         logger.info('Friend: %s' % friend)
         return self.sauth.splitwise_handle.createFriend(friend)
 
-
 class SplitwiseOAuthManager(object):
     CONSUMER_KEY = 'fACzGnELB2PJ9yj00KFhamAEXARtq4HNXKkc2649'
     CONSUMER_SECRET = '4JhR47gtvqfB5bKTNPvdtK2yKYeRCDp2JbRyFlnR'
