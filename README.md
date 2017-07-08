@@ -66,7 +66,6 @@ C] Tools/Frameworks: [Serverless Framework](https://serverless.com/)
 
 D] Architecture Diagram:
 
-<<<<<<< HEAD
 ![splitbot architecture](https://s3.amazonaws.com/splitsmartbot-2017/splitsmart-diag.png)
 
 
@@ -79,4 +78,3 @@ D] Architecture Diagram:
 ### 2. Get all my pending expenses
 =======
 ![splitbot architecture](/demo/splitsmart-diag.png)
->>>>>>> master
