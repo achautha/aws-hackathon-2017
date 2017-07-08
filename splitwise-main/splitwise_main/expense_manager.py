@@ -27,6 +27,21 @@ class SplitwiseAccountmanager(object):
         self.sauth.splitwise_handle.setAccessToken(access_token)
         return self.sauth.splitwise_handle.getCurrentUser()
 
+    def get_user(self, user):
+        access_token = self.sauth.get_access_token()
+        self.sauth.splitwise_handle.setAccessToken(access_token)
+        return self.sauth.splitwise_handle.getUser(user)
+
+    def get_group(self, groupName):
+
+        access_token = self.sauth.get_access_token()
+        self.sauth.splitwise_handle.setAccessToken(access_token)
+        groups = self.sauth.splitwise_handle.getGroups()
+        for g in groups:
+            if g.name.lower() ==  groupName.lower():
+                return g
+        return None
+
     def create_group(self, name):
         access_token = self.sauth.get_access_token()
         self.sauth.splitwise_handle.setAccessToken(access_token)
@@ -193,5 +208,4 @@ if __name__ == '__main__':
     #get_friends({u'oauth_token_secret': u'88VUx9FMf85JaB81evq5zMqWSs5zB8wQ773B2lIh',
     #             u'oauth_token': u'3cxfHmS2Kma7wbiwTDL7ix4Th2eXFI5sykCL5qM7'})
     #test_get_current_user()
-
 

@@ -1,5 +1,4 @@
 import logging
-
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 from splitwise_oauth.expense_manager import SplitwiseOAuthManager
@@ -29,7 +28,6 @@ class SplitwiseCallbackHandler(object):
     """
     This is an entrypoint for you microservice
     """
-
     def __init__(self, event, context):
         self.event = event
         self.context = context
@@ -42,9 +40,9 @@ class SplitwiseCallbackHandler(object):
         query_params = self.event['queryStringParameters']
         sauth = SplitwiseOAuthManager(auth_token=query_params['oauth_token'])
         access_token = sauth.request_access_token(query_params['oauth_verifier'])
-        logger.info("Access token obtained %s" % repr(access_token))
+        logger.info("Access token obtained %s" %repr(access_token))
         response = {
-            'Status': 'SUCCESS',
+            'Status' : 'SUCCESS',
             'Message': 'Splitwise Authentication is successful. Go back to your bot and enjoy Splitwise !',
             'access_token': access_token
         }
@@ -59,6 +57,7 @@ class SplitwiseCallbackHandler(object):
         sauth = SplitwiseOAuthManager(auth_token=query_params['oauth_token'])
         access_token = sauth.request_access_token(query_params['oauth_verifier'])
         logger.info("Access token obtained %s" % repr(access_token))
-        # response = html_response.replace("##ACCESS##", str(access_token))
+        #response = html_response.replace("##ACCESS##", str(access_token))
         response = html_response
-        return response
+	return response
+

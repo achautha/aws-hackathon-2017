@@ -1,5 +1,4 @@
 import logging
-
 logging.basicConfig()
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -28,7 +27,7 @@ def close(session_attributes, fulfillment_state, message):
 
     return response
 
-
+'''
 def confirm_intent(session_attributes, intent_name, slots, message):
     return {
         'sessionAttributes': session_attributes,
@@ -37,29 +36,29 @@ def confirm_intent(session_attributes, intent_name, slots, message):
             'intentName': intent_name,
             'slots': slots,
             'message': message,
-            "responseCard": {
-                "version": 1,
+	    "responseCard": {
+      	        "version": 1,
                 "contentType": "application/vnd.amazonaws.card.generic",
                 "genericAttachments": [
+                {
+                    "title":"Splitwise OAuth initiation",
+                    "subTitle":"Use below url to initiate Splitwise authorization",
+                    "imageUrl": "https://s3.amazonaws.com/lex-box/ice-tea.jpeg",
+                    "attachmentLinkUrl": "https://s3.amazonaws.com/lex-box/ice-tea.html",
+                    "buttons":[ 
                     {
-                        "title": "Splitwise OAuth initiation",
-                        "subTitle": "Use below url to initiate Splitwise authorization",
-                        "imageUrl": "https://s3.amazonaws.com/lex-box/ice-tea.jpeg",
-                        "attachmentLinkUrl": "https://s3.amazonaws.com/lex-box/ice-tea.html",
-                        "buttons": [
-                            {
-                                "text": "click on this url ",
-                                "value": "intent_name"
-                            }
-                        ]
+                       "text":"click on this url ",
+                       "value":"intent_name"
                     }
-                ]
+                    ] 
+                 } 
+               ] 
             }
-        }
+      }
     }
-
-
+    
 '''
+
 def confirm_intent(session_attributes, intent_name, slots, message):
     return {
         'sessionAttributes': session_attributes,
@@ -70,8 +69,6 @@ def confirm_intent(session_attributes, intent_name, slots, message):
             'message': message
         }
     }
-'''
-
 
 def initiate_oauth(userId):
     sauth = SplitwiseOAuthManager(userId)
@@ -82,43 +79,39 @@ def initiate_oauth(userId):
                             "Have you finished login? ".format(auth_url)}
     return oauth_msg
 
-
 def get_token_from_db(userId):
-    logger.info('Getting token from db for user %s' % userId)
+    logger.info('Getting token from db for user %s' %userId)
     sauth = SplitwiseOAuthManager(userId)
     return sauth.get_access_token()
 
-
 def login_attempts(intent, first=True):
     if first:
-        intent['sessionAttributes']['login_attempts'] = 1
-        return 1
+	intent['sessionAttributes']['login_attempts'] = 1
+	return 1
     else:
-        attmp = intent['sessionAttributes']['login_attempts']
-        attmp = int(attmp) + 1
+        attmp = intent['sessionAttributes']['login_attempts'] 
+    	attmp = int(attmp) + 1
         intent['sessionAttributes']['login_attempts'] = attmp
-        return attmp
-
+	return attmp
 
 def is_logged_in(userid, intent):
     # here goto dynamodb to see if token is present
     token = None
-    attemtps = 0
+    attemtps = 0 
     if intent['sessionAttributes']:
         logger.info("session attrs are not empty")
         token = intent['sessionAttributes'].get('access_token', None)
         if not token:
             token = get_token_from_db(userid)
             intent['sessionAttributes']['access_token'] = str(token) if token else None
-        attempts = login_attempts(intent, first=False)
+	attempts = login_attempts(intent, first=False)
     else:
         logger.info("session attrs are empty")
         token = get_token_from_db(userid)
         token = str(token) if token else None
-        intent['sessionAttributes'] = {'access_token': token}
-        attempts = login_attempts(intent, first=True)
+        intent['sessionAttributes'] = { 'access_token' : token }
+	attempts = login_attempts(intent, first=True)
     return token, attempts
-
 
 '''
 def prompt_for_login(intent):
@@ -132,6 +125,6 @@ def prompt_for_login(intent):
     return None
 '''
 
-
 def get_slots(intent_request):
     return intent_request['currentIntent']['slots']
+
