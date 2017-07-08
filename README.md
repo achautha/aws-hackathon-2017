@@ -66,4 +66,4 @@ C] Tools/Frameworks: [Serverless Framework](https://serverless.com/)
 
 D] Architecture Diagram:
 
-![alt](https://gitlab.com/atharvac/aws-hackathon-2017/blob/master/demo/splitsmart-diag.png)
+![splitbot architecture](/demo/splitsmart-diag.png)
