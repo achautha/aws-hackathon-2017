@@ -1,5 +1,6 @@
 import sys, json
 from splitwise import Splitwise
+from splitwise.group import Group
 from urlparse import urlparse
 import boto3
 from boto3.dynamodb.conditions import Key, Attr
@@ -29,21 +30,25 @@ class SplitwiseAccountmanager(object):
     def create_group(self, name):
         access_token = self.sauth.get_access_token()
         self.sauth.splitwise_handle.setAccessToken(access_token)
-        return self.sauth.splitwise_handle.createGroup(name)
+        group_obj = Group()
+        group_obj.setName(name)
+        return self.sauth.splitwise_handle.createGroup(group_obj)
 
-    def add_user_to_group(self, first_name, last_name, email, group_id):
+    def add_user_to_group(self, user_id, group_id):
         access_token = self.sauth.get_access_token()
         self.sauth.splitwise_handle.setAccessToken(access_token)
-        return self.sauth.splitwise_handle.addUserToGroup(first_name, last_name, email, group_id)
+        return self.sauth.splitwise_handle.addUserToGroup(user_id, group_id)
 
-    def get_group_id(self, group_name):
+    def get_groups(self):
         access_token = self.sauth.get_access_token()
         self.sauth.splitwise_handle.setAccessToken(access_token)
-        groups = self.sauth.splitwise_handle.getGroups()
-        for g in groups:
-            logger.info("Group Id {}, Group Name {}".format(g.id, g.getName()))
-            if g.getName() == group_name:
-                return g.id
+        return self.sauth.splitwise_handle.getGroups()
+
+    def add_friend(self, friend):
+        access_token = self.sauth.get_access_token()
+        self.sauth.splitwise_handle.setAccessToken(access_token)
+        logger.info('Friend: %s' % friend)
+        return self.sauth.splitwise_handle.createFriend(friend)
 
 
 class SplitwiseOAuthManager(object):

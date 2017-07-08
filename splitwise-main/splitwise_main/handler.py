@@ -1,6 +1,9 @@
 from splitwise_main.intent_pending_expense import process_intent as pending_ex
 from splitwise_main.intent_expense_group import process_group_intent as expense_group
-from splitwise_main.intent_expense_group import process_user_intent as add_user
+from splitwise_main.intent_expense_group import process_user_intent as add_user_to_group
+from splitwise_main.intent_expense_group import process_list_groups as list_groups
+from splitwise_main.intent_expense_group import process_get_users_in_group as get_user_in_group
+from splitwise_main.intent_expense_group import process_add_friend as add_friend
 
 import logging
 
@@ -11,7 +14,10 @@ logger.setLevel(logging.INFO)
 intent_map = {
     'PendingExpenses': pending_ex,
     'createExpenseGroup': expense_group,
-    'addUserToGroup': add_user,
+    'addUserToGroup': add_user_to_group,
+    'showGroups': list_groups,
+    'showFriendsInGroup': get_user_in_group,
+    'addFriend': add_friend,
 }
 
 
