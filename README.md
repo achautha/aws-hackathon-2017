@@ -71,8 +71,8 @@ D] Architecture Diagram:
 
 ## Short Demos
 
-1. First time login
+### 1. First time login and Greetings
 
-![first time login](https://s3.amazonaws.com/splitsmartbot-2017/get-expenses.mov)
+![](https://s3.amazonaws.com/splitsmartbot-2017/get-expenses.mov)
 
-2. 
+### 2. Get all my pending expenses
