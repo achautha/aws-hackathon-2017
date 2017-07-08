@@ -66,7 +66,7 @@ C] Tools/Frameworks: [Serverless Framework](https://serverless.com/)
 
 D] Architecture Diagram:
 
-![splitbot architecture](/demo/splitsmart-diag.png)
+![splitbot architecture](https://s3.amazonaws.com/splitsmartbot-2017/splitsmart-diag.png)
 
 
 ## Short Demos
