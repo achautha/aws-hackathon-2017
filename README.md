@@ -49,7 +49,7 @@ You can use the bot from broswer, phone ( android, IOS) and tablets. ( Thanks to
     - In Search Tab,  type @splitsmartbot and press enter
 
 
-##Architecture
+## Architecture
 
 SplitSmartBot is built using following AWS, python and Serverless Framework.
 
