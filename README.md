@@ -76,7 +76,3 @@ D] Architecture Diagram:
 ![](https://s3.amazonaws.com/splitsmartbot-2017/get-expenses.mov)
 
 ### 2. Get all my pending expenses
-
-=======
-![splitbot architecture](/demo/splitsmart-diag.png)
-=======
