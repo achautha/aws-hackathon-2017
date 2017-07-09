@@ -62,7 +62,6 @@ class SplitwiseAccountmanager(object):
     def add_friend(self, friend):
         access_token = self.sauth.get_access_token()
         self.sauth.splitwise_handle.setAccessToken(access_token)
-        logger.info('Friend: %s' % friend)
         return self.sauth.splitwise_handle.createFriend(friend)
 
 class SplitwiseOAuthManager(object):
