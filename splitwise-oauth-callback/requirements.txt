@@ -1,2 +1,3 @@
-splitwise
+-f ../dist
+splitwise==1.0.0
 tinyurl
