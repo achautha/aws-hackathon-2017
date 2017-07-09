@@ -6,7 +6,7 @@ from splitwise_oauth.expense_manager import SplitwiseOAuthManager
 html_response = """<!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Authorization Status</title>
+  <title>SplitSmartBot Authorization Status</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -16,8 +16,8 @@ html_response = """<!DOCTYPE html>
 <body>
 
 <div class="jumbotron text-center">
-  <h2>Your Splitwise authorization is successful !</h2>
-  <p>Go back to your bot and enjoy</p>
+  <h2>Hello! You have successfully authorized SplitSmartBot!</h2>
+  <p>Go back to SplitSmartBot and type 'Yes' in the chat window. </p>
 </div>
 
 </body>
