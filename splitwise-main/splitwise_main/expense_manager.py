@@ -1,6 +1,9 @@
 import sys, json
 from splitwise import Splitwise
 from splitwise.group import Group
+from splitwise.expense import Expense
+from splitwise.user import ExpenseUser
+
 from urlparse import urlparse
 import boto3
 from boto3.dynamodb.conditions import Key, Attr
@@ -33,7 +36,6 @@ class SplitwiseAccountmanager(object):
         return self.sauth.splitwise_handle.getUser(user)
 
     def get_group(self, groupName):
-
         access_token = self.sauth.get_access_token()
         self.sauth.splitwise_handle.setAccessToken(access_token)
         groups = self.sauth.splitwise_handle.getGroups()
@@ -63,6 +65,18 @@ class SplitwiseAccountmanager(object):
         access_token = self.sauth.get_access_token()
         self.sauth.splitwise_handle.setAccessToken(access_token)
         return self.sauth.splitwise_handle.createFriend(friend)
+
+    def create_expense(self, expense):
+        access_token = self.sauth.get_access_token()
+        self.sauth.splitwise_handle.setAccessToken(access_token)
+        return self.sauth.splitwise_handle.createExpense(expense)
+
+    def get_expense_obj(self):
+        return Expense()
+
+    def get_expense_user(self):
+        return ExpenseUser()
+
 
 class SplitwiseOAuthManager(object):
     CONSUMER_KEY = 'fACzGnELB2PJ9yj00KFhamAEXARtq4HNXKkc2649'

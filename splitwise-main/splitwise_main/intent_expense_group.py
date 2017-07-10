@@ -104,6 +104,57 @@ def get_users_in_group(intent):
         return 'Sorry ! There are no friends added to this group, please add friends to this group'
 
 
+def create_expense_group(intent):
+    logger.info('Create Expense :%s' % intent)
+    group_name = try_ex(lambda: intent['currentIntent']['slots']['GroupName'])
+    expense_dec = try_ex(lambda: intent['currentIntent']['slots']['ExpenseDescription'])
+    expense_cost = try_ex(lambda: intent['currentIntent']['slots']['ExpenseCost'])
+    if group_name and expense_cost and expense_cost:
+        cost = float(expense_cost)
+        smgr = SplitwiseAccountmanager(userId=intent['userId'])
+        groups = smgr.get_groups()
+        expense = smgr.get_expense_obj()
+        current_user = smgr.get_current_user()
+        my_id = current_user.getId()
+        expense.setCost(cost)
+        expense.setDescription(expense_dec)
+        expense.setPayment(False)
+
+        group_exist = False
+
+        for group in groups:
+            if group.getName() == group_name:
+                group_exist = True
+                group_id = group.getId()
+                expense.setGroupId(group_id)
+                members = group.getMembers()
+                total_members = float(len(members))
+                owe_share = float("{0:.2f}".format(cost/total_members))
+                users = []
+                # There is always atleast one group member
+                for member in members:
+                    user = smgr.get_expense_user()
+                    user.setId(member.getId())
+                    if my_id == member.getId():
+                        my_owe_share = cost - owe_share * (total_members - 1)
+                        user.setOwedShare(str(my_owe_share))
+                        user.setPaidShare(str(cost))
+                    else:
+                        user.setOwedShare(str(owe_share))
+                        user.setPaidShare(str(0))
+
+                    users.append(user)
+
+                expense.setUsers(users)
+
+        if group_exist:
+            expense = smgr.create_expense(expense)
+            # parse the expense object to see if any error exist
+            return 'Created expense for group {} of amount {}'.format(group_name, expense_cost)
+        else:
+            return 'Oops no expense group exist with name {}. Why dont you create an expense group'.format(group_name)
+
+
 def intent_create_group(intent):
     # Check if logged In
     if intent['invocationSource'] == 'DialogCodeHook':
@@ -270,6 +321,37 @@ def intent_add_friend(intent):
                  {'contentType': 'PlainText',
                   'content': fulfilment_result})
 
+def intent_create_expense(intent):
+    if intent['invocationSource'] == 'DialogCodeHook':
+        slots = get_slots(intent)
+        if intent['currentIntent']['confirmationStatus'] == 'Denied':
+            return close(intent['sessionAttributes'], 'Failed',
+                         {'contentType': 'PlainText',
+                          'content': 'Sorry unable to proceed with your request'})
+
+        token, attem = is_logged_in(intent['userId'], intent)
+        if not token:
+            if attem > 3:
+                intent['sessionAttributes']['login_attempts'] = 0
+                logger.info('Login attempts exceeded. Fail request')
+                return close(intent['sessionAttributes'], 'Failed',
+                             {'contentType': 'PlainText',
+                              'content': 'Number of login attempts exceeded. Please check your splitwise credentials'})
+
+            logger.info('Token is not present. Now asking for login confirmation with %s' % intent)
+            return confirm_intent(intent['sessionAttributes'],
+                                  intent['currentIntent']['name'],
+                                  get_slots(intent),
+                                  initiate_oauth(intent['userId']))
+        else:
+            # Do other validation yourself or delegate other validations to BOT
+            return delegate(intent['sessionAttributes'], get_slots(intent))
+
+    fulfilment_result = create_expense_group(intent)
+    logger.info("Add user fulfill result {}".format(fulfilment_result))
+    return close(intent['sessionAttributes'], 'Fulfilled',
+                 {'contentType': 'PlainText',
+                  'content': fulfilment_result})
 
 def process_user_intent(intent):
     return intent_add_user_to_group(intent=intent)
@@ -289,3 +371,6 @@ def process_get_users_in_group(intent):
 
 def process_add_friend(intent):
     return intent_add_friend(intent)
+
+def process_create_expense(intent):
+    return intent_create_expense(intent)
