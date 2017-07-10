@@ -10,11 +10,11 @@ def try_ex(func):
 
 
 def ask_to_add_friend(friend):
-    return "Friend {} does exist in your list, please add friend".format(friend)
+    return "Oops ! Friend {} does exist in your list, please add friend".format(friend)
 
 
 def ask_to_create_group(group_name):
-    return "Group {} does not exist, please create expense group".format(group_name)
+    return "Oops ! Group {} does not exist, please create expense group".format(group_name)
 
 
 def get_group_id(smgr, group_name):
@@ -46,7 +46,7 @@ def add_user_request(intent):
         if group_id is None:
             return ask_to_create_group(group_name)
         smgr.add_user_to_group(friend_id, group_id)
-        return "Added {} to group {}".format(first_name, group_name)
+        return "Successfully Added {} to group {}".format(first_name, group_name)
 
 
 def add_friend_request(intent):
@@ -59,7 +59,7 @@ def add_friend_request(intent):
         if last_name is not None:
             friend.update(dict(user_last_name=last_name))
         smgr.add_friend(friend)
-        return "Added friend {} {}".format(first_name, last_name)
+        return "Successfully invited friend {} {}".format(first_name, last_name)
 
 
 def create_group_request(intent):
@@ -67,8 +67,8 @@ def create_group_request(intent):
     if group_name is not None:
         smgr = SplitwiseAccountmanager(userId=intent['userId'])
         smgr.create_group(group_name)
-        return "created group name : {}".format(group_name)
-    return "Group {} can not be created".format(group_name)
+        return "Successfully created group name : {} ! Now you can invite friends and add them here".format(group_name)
+    return "Sorry! Group {} can not be created".format(group_name)
 
 
 def list_groups_request(intent):
@@ -78,7 +78,7 @@ def list_groups_request(intent):
     for group in groups:
         group_name = group_name + group.getName() + ', '+' \n '
 
-    return "Expense Group Name are : {}".format(group_name)
+    return "You have following groups in your account:\n {}".format(group_name)
 
 
 def get_users_in_group(intent):
@@ -99,9 +99,9 @@ def get_users_in_group(intent):
     if user and group_exist:
         return 'Friends in this group are : \n{}'.format(user)
     elif not group_exist:
-        return 'No group exist with name {}, Please create group'.format(group_name)
+        return 'Sorry ! No group exist with name {}, Please create group'.format(group_name)
     else:
-        return 'There are no friends added to this group, please add friends to this group'
+        return 'Sorry ! There are no friends added to this group, please add friends to this group'
 
 
 def intent_create_group(intent):
