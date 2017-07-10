@@ -5,7 +5,7 @@ def calc_pending_expenses_for_friend(userId, friend):
     smgr = SplitwiseAccountmanager(userId=userId)
     friends = smgr.get_friends()
     if not friends:
-        return "You Don't have any friends. Create an expense group and invite friends."
+        return "Sorry ! You don't seem have any friends in this account ! Why don't you invite them."
     frnd = None
     for f in friends:
         if f.first_name.upper() == friend.upper():
@@ -14,7 +14,7 @@ def calc_pending_expenses_for_friend(userId, friend):
             break
 
     if not frnd:
-        return "{} is not in your friends list".format(friend)
+        return "Sorry ! {} is not in your friends list".format(friend)
 
     to_friend = []
     from_friend = []
@@ -43,15 +43,15 @@ def calculate_pending_expenses_for_group(userId, group):
     group_exp = []
     mygroup = smgr.get_group(group)
     if not mygroup:
-	return "group {} does not exist in your account".format(group)
+	return "Sorry ! group {} does not exist in your account".format(group)
 
     for debt in mygroup.simplified_debts:
         group_exp.append("{} owes {} {} {}. ".format(smgr.get_user(debt.fromUser).first_name, smgr.get_user(debt.toUser).first_name,
                                         debt.currency_code, debt.amount))
     if not group_exp:
-        return "No expenses created in this group"
+        return "Sorry ! No expenses created in this group"
 
-    return "Expense report for group {}:\n\n{}".format(group, ",\n".join(group_exp))
+    return "Here is your expense report for group {}:\n\n{}".format(group, ",\n".join(group_exp))
 
 def fulfil_request(userId, slots):
     if slots.get('friendOrGroup', None):
@@ -68,7 +68,7 @@ def calculate_pending_expenses(userId):
     smgr = SplitwiseAccountmanager(userId=userId)
     friends = smgr.get_friends()
     if not friends:
-        return "You Don't have any friends. Create an expense group and invite friends."
+        return "Sorry! You Don't seem to  have any friends in your account. Invite some friends and have fun!"
 
     you_owe = []
     friends_owe = []
@@ -91,7 +91,7 @@ def calculate_pending_expenses(userId):
     else:
         your_exp = "Friends owe you:\n{} ".format( ",\n".join(friends_owe))
 
-    return "\n{}\n   \n{}\n".format(frnd_exp, your_exp)
+    return "Here is your pending expense report: \n{}\n   \n{}\n".format(frnd_exp, your_exp)
 
 def intent_pending_expenses(intent):
     # Check if logged In
@@ -100,7 +100,7 @@ def intent_pending_expenses(intent):
         if intent['currentIntent']['confirmationStatus'] == 'Denied':
 	    return close(intent['sessionAttributes'], 'Failed',
 		         {'contentType': 'PlainText',
-                  	  'content': 'Sorry unable to proceed with your request'})   
+                  	  'content': 'Sorry ! We can not process your request without authorization.'})   
 		 
 	token, attem = is_logged_in(intent['userId'], intent)
 	if not token:
@@ -109,7 +109,7 @@ def intent_pending_expenses(intent):
             	logger.info('Login attempts exceeded. Fail request')
 	    	return close(intent['sessionAttributes'], 'Failed',
 		         {'contentType': 'PlainText',
-                  	  'content': 'Number of login attempts exceeded. Please check your splitwise credentials'})   
+                  	  'content': 'Oops ! Number of login attempts exceeded. Please check your SplitWise credentials'})   
 			
             logger.info('Token is not present. Now asking for login confirmation with %s' % intent)
             return confirm_intent(intent['sessionAttributes'],
