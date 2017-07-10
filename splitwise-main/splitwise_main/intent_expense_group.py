@@ -150,9 +150,9 @@ def create_expense_group(intent):
         if group_exist:
             expense = smgr.create_expense(expense)
             # parse the expense object to see if any error exist
-            return 'Created expense for group {} of amount {}'.format(group_name, expense_cost)
+            return 'Added your expense amount {} in group {}.'.format(expense_cost, group_name)
         else:
-            return 'Oops no expense group exist with name {}. Why dont you create an expense group'.format(group_name)
+            return 'Oops! Group {} does not exist in your account. Why dont you create a anew group'.format(group_name)
 
 
 def intent_create_group(intent):
