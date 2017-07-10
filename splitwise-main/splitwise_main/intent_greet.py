@@ -9,7 +9,7 @@ operations = [
  "I want to create a new group [GroupName]", 
  "Show friends in [GroupName]",
  "Can you add [FirstName] to [GroupName].", 
- "Add new expense in [GroupName]",
+ "I paid [amount] for [purpose]",
  "I want to know my pending expenses", 
  "Show pending expenses with friend [FirstName of Friend].",
  "I want to see expenses for group [GroupName]."
