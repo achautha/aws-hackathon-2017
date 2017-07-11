@@ -166,9 +166,9 @@ def get_friends(intent):
         friend_list = friend_list + '\n'
 
     if friend_list:
-        print 'Your friends \n{}'.format(friend_list)
+        return 'Your friends \n{}'.format(friend_list)
     else:
-        print 'Looks like you have not invited any friends yet, please invite friend'
+        return 'Looks like you have not invited any friends yet, please invite friend'
 
 def intent_create_group(intent):
     # Check if logged In
