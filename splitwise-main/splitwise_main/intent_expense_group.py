@@ -20,7 +20,7 @@ def ask_to_create_group(group_name):
 def get_group_id(smgr, group_name):
     groups = smgr.get_groups()
     for group in groups:
-        if group.getName() == group_name:
+        if group.getName().lower() == group_name.lower():
             return group.getId()
 
 
@@ -28,7 +28,7 @@ def get_friend_id(smgr, friend_name):
     friends = smgr.get_friends()
     for friend in friends:
         print friend.getId(), friend.getFirstName(), friend.getLastName(), friend.getEmail()
-        if friend_name == friend.getFirstName():
+        if friend_name.lower() == friend.getFirstName().lower():
             return friend.getId()
 
 
@@ -88,13 +88,13 @@ def get_users_in_group(intent):
     user = ''
     group_exist = False
     for group in groups:
-        if group.getName() == group_name:
+        if group.getName().lower() == group_name.lower():
             group_exist = True
             members = group.getMembers()
             for m in members:
                 user = user + m.getFirstName()
                 if m.getLastName() is not None: user = user + ' ' + m.getLastName()
-                user = user + ', \n'
+                user = user + '\n'
 
     if user and group_exist:
         return 'Friends in this group are : \n{}'.format(user)
@@ -123,7 +123,7 @@ def create_expense_group(intent):
         group_exist = False
 
         for group in groups:
-            if group.getName() == group_name:
+            if group.getName().lower() == group_name.lower():
                 group_exist = True
                 group_id = group.getId()
                 expense.setGroupId(group_id)
@@ -154,6 +154,21 @@ def create_expense_group(intent):
         else:
             return 'Oops! Group {} does not exist in your account. Why dont you create a anew group'.format(group_name)
 
+
+def get_friends(intent):
+    smgr = SplitwiseAccountmanager(userId=intent['userId'])
+    friends = smgr.get_friends()
+    friend_list = ''
+    for friend in friends:
+        friend_list = friend_list + friend.getFirstName()
+        if friend.getLastName() is not None:
+            friend_list = friend_list + ' ' + friend.getLastName()
+        friend_list = friend_list + '\n'
+
+    if friend_list:
+        print 'Your friends \n{}'.format(friend_list)
+    else:
+        print 'Looks like you have not invited any friends yet, please invite friend'
 
 def intent_create_group(intent):
     # Check if logged In
@@ -353,6 +368,41 @@ def intent_create_expense(intent):
                  {'contentType': 'PlainText',
                   'content': fulfilment_result})
 
+
+def intent_get_friends(intent):
+    if intent['invocationSource'] == 'DialogCodeHook':
+        slots = get_slots(intent)
+        if intent['currentIntent']['confirmationStatus'] == 'Denied':
+            return close(intent['sessionAttributes'], 'Failed',
+                         {'contentType': 'PlainText',
+                          'content': 'Sorry unable to proceed with your request'})
+
+        token, attem = is_logged_in(intent['userId'], intent)
+        if not token:
+            if attem > 3:
+                intent['sessionAttributes']['login_attempts'] = 0
+                logger.info('Login attempts exceeded. Fail request')
+                return close(intent['sessionAttributes'], 'Failed',
+                             {'contentType': 'PlainText',
+                              'content': 'Number of login attempts exceeded. Please check your splitwise credentials'})
+
+            logger.info('Token is not present. Now asking for login confirmation with %s' % intent)
+            return confirm_intent(intent['sessionAttributes'],
+                                  intent['currentIntent']['name'],
+                                  get_slots(intent),
+                                  initiate_oauth(intent['userId']))
+        else:
+            # Do other validation yourself or delegate other validations to BOT
+            return delegate(intent['sessionAttributes'], get_slots(intent))
+
+    fulfilment_result = get_friends(intent)
+    logger.info("Add user fulfill result {}".format(fulfilment_result))
+    return close(intent['sessionAttributes'], 'Fulfilled',
+                 {'contentType': 'PlainText',
+                  'content': fulfilment_result})
+
+
+
 def process_user_intent(intent):
     return intent_add_user_to_group(intent=intent)
 
@@ -374,3 +424,6 @@ def process_add_friend(intent):
 
 def process_create_expense(intent):
     return intent_create_expense(intent)
+
+def process_get_friends(intent):
+    return intent_get_friends(intent)

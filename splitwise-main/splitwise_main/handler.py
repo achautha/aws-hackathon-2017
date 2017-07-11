@@ -5,6 +5,7 @@ from splitwise_main.intent_expense_group import process_user_intent as add_user_
 from splitwise_main.intent_expense_group import process_list_groups as list_groups
 from splitwise_main.intent_expense_group import process_get_users_in_group as get_user_in_group
 from splitwise_main.intent_expense_group import process_add_friend as add_friend
+from splitwise_main.intent_expense_group import process_get_friends as get_friends
 from splitwise_main.intent_expense_group import process_create_expense as create_ex
 
 import logging
@@ -20,6 +21,7 @@ intent_map ={
     'showGroups': list_groups,
     'showFriendsInGroup': get_user_in_group,
     'addFriend': add_friend,
+    'getFriend': get_friends,
     'SplitSmartHelp': greet,
 }
 
