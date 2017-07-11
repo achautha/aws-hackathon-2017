@@ -32,9 +32,9 @@ def calc_pending_expenses_for_friend(userId, friend):
 
     your_exp= None
     if not from_friend:
-        your_exp = "{} owe you nothing. ".format(friend)
+        your_exp = "{} owes you nothing. ".format(friend)
     else:
-        your_exp = "{} owe you {}. ".format(friend, ",".join(from_friend))
+        your_exp = "{} owes you {}. ".format(friend, ",".join(from_friend))
 
     return "{}\n\n{}".format(frnd_exp, your_exp)
     	

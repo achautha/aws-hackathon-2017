@@ -4,15 +4,16 @@ from splitwise_main.expense_manager import SplitwiseAccountmanager
 help_message = "Hello ! I am SplitSmartBot.\nI am here to help you manage and split expenses with friends.\nYou can ask me any of the following."
 
 operations = [ 
+ "Show all friends",
  "I want to Invite friend [FirstName]",
  "Show all my groups",
  "I want to create a new group [GroupName]", 
  "Show friends in [GroupName]",
  "Can you add [FirstName] to [GroupName].", 
  "I paid [amount] for [purpose]",
- "I want to know my pending expenses", 
- "Show pending expenses with friend [FirstName of Friend].",
- "I want to see expenses for group [GroupName]."
+ "Show my balance", 
+ "Show balance with friend [FirstName].",
+ "Get balance for group [GroupName]."
 ]
 
 greetings="What do you want to do today ?"

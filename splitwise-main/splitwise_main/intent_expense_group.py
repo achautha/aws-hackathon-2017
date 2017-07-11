@@ -163,10 +163,10 @@ def get_friends(intent):
         friend_list = friend_list + friend.getFirstName()
         if friend.getLastName() is not None:
             friend_list = friend_list + ' ' + friend.getLastName()
-        friend_list = friend_list + '\n'
+        friend_list = friend_list + ',\n'
 
     if friend_list:
-        return 'Your friends \n{}'.format(friend_list)
+        return 'Your friends: \n{}'.format(friend_list)
     else:
         return 'Looks like you have not invited any friends yet, please invite friend'
 
