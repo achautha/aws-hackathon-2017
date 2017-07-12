@@ -1,7 +1,7 @@
 # SplitSmartBot - Chat, Split and Enjoy
 
 ## What is SplitSmartBot
-SplitSmartBot is a conversationsational chatbot based on [SplitWise](https://www.splitwise.com/) application. Splitwise is a free tool for friends and roommates to track bills and other shared expenses, so that everyone gets paid back. Bot built using AWS Lex and other services and is deployed on Facebook messenger.
+SplitSmartBot is a conversational chatbot based on [SplitWise](https://www.splitwise.com/) application. Splitwise is a free tool for friends and roommates to track bills and other shared expenses, so that everyone gets paid back. Bot built using AWS Lex and other services and is deployed on Facebook messenger.
 
 ## Features and use cases
 SplitSmartBot chatbot is based on [AWS Lex](https://aws.amazon.com/lex) service. It supports following use cases.
