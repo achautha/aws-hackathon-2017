@@ -58,7 +58,8 @@ def add_friend_request(intent):
         friend = dict(user_first_name=first_name, user_email=email)
         if last_name is not None:
             friend.update(dict(user_last_name=last_name))
-        smgr.add_friend(friend)
+        add_friend = smgr.add_friend(friend)
+        logger.info("Add Friend Response %s" % add_friend)
         return "Successfully invited friend {} {}".format(first_name, last_name)
 
 
@@ -76,7 +77,7 @@ def list_groups_request(intent):
     groups = smgr.get_groups()
     group_name = ""
     for group in groups:
-        group_name = group_name + group.getName() + ', '+' \n '
+        group_name = group_name + group.getName() +' \n '
 
     return "You have following groups in your account:\n {}".format(group_name)
 
@@ -129,6 +130,8 @@ def create_expense_group(intent):
                 expense.setGroupId(group_id)
                 members = group.getMembers()
                 total_members = float(len(members))
+                if total_members == 1:
+                    return "There are no friends in this group, you should invite friends in group {}".format(group_name)
                 owe_share = float("{0:.2f}".format(cost/total_members))
                 users = []
                 # There is always atleast one group member
@@ -152,7 +155,7 @@ def create_expense_group(intent):
             # parse the expense object to see if any error exist
             return 'Added your expense amount {} in group {}.'.format(expense_cost, group_name)
         else:
-            return 'Oops! Group {} does not exist in your account. Why dont you create a anew group'.format(group_name)
+            return 'Oops! Group {} does not exist in your account. Why dont you create a new group'.format(group_name)
 
 
 def get_friends(intent):
@@ -163,12 +166,13 @@ def get_friends(intent):
         friend_list = friend_list + friend.getFirstName()
         if friend.getLastName() is not None:
             friend_list = friend_list + ' ' + friend.getLastName()
-        friend_list = friend_list + ',\n'
+        friend_list = friend_list + '\n'
 
     if friend_list:
         return 'Your friends: \n{}'.format(friend_list)
     else:
         return 'Looks like you have not invited any friends yet, please invite friend'
+
 
 def intent_create_group(intent):
     # Check if logged In
