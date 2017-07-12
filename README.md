@@ -49,6 +49,8 @@ You can use the bot from broswer, phone ( android, IOS) and tablets. ( Thanks to
     - Open Facebook messenger
     - In Search Tab,  type @splitsmartbot and press enter
 
+3. Visit this Facebook page:  https://www.facebook.com/splitsmartbot/  
+
 
 ## Architecture
 
@@ -68,6 +70,3 @@ C] Tools/Frameworks: [Serverless Framework](https://serverless.com/)
 D] Architecture Diagram:
 
 ![splitbot architecture](https://s3.amazonaws.com/splitsmartbot-2017/splitsmart-diag.png)
-
-
-## Disclaimer : As per SplitWise policy, we do not store any user data ( Friends, groups expenses) on our servers. Everything is stored by SplitWise.
