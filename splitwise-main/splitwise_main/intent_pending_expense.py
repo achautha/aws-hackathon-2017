@@ -49,7 +49,7 @@ def calculate_pending_expenses_for_group(userId, group):
         group_exp.append("{} owes {} {} {}. ".format(smgr.get_user(debt.fromUser).first_name, smgr.get_user(debt.toUser).first_name,
                                         debt.currency_code, debt.amount))
     if not group_exp:
-        return "Sorry ! No expenses created in this group"
+        return "Sorry ! No pending balances in this group"
 
     return "Here is your expense report for group {}:\n\n{}".format(group, ",\n".join(group_exp))
 

@@ -58,7 +58,8 @@ def add_friend_request(intent):
         friend = dict(user_first_name=first_name, user_email=email)
         if last_name is not None:
             friend.update(dict(user_last_name=last_name))
-        smgr.add_friend(friend)
+        output = smgr.add_friend(friend)
+        logger.info("Add friend response %s" %output)
         return "Successfully invited friend {} {}".format(first_name, last_name)
 
 
@@ -76,7 +77,7 @@ def list_groups_request(intent):
     groups = smgr.get_groups()
     group_name = ""
     for group in groups:
-        group_name = group_name + group.getName() + ', '+' \n '
+        group_name = group_name + group.getName() +' \n '
 
     return "You have following groups in your account:\n {}".format(group_name)
 
@@ -163,7 +164,7 @@ def get_friends(intent):
         friend_list = friend_list + friend.getFirstName()
         if friend.getLastName() is not None:
             friend_list = friend_list + ' ' + friend.getLastName()
-        friend_list = friend_list + ',\n'
+        friend_list = friend_list + '\n'
 
     if friend_list:
         return 'Your friends: \n{}'.format(friend_list)
