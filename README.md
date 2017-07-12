@@ -1,7 +1,7 @@
 # SplitSmartBot - Chat, Split and Enjoy
 
 ## What is SplitSmartBot
-SplitSmartBot is a conversationsational chatbot based on [SplitWise](https://www.splitwise.com/) application. Splitwise is a free tool for friends and roommates to track bills and other shared expenses, so that everyone gets paid back. Bot is deployed on Facebook messenger.
+SplitSmartBot is a conversationsational chatbot based on [SplitWise](https://www.splitwise.com/) application. Splitwise is a free tool for friends and roommates to track bills and other shared expenses, so that everyone gets paid back. Bot built using AWS Lex and other services and is deployed on Facebook messenger.
 
 ## Features and use cases
 SplitSmartBot chatbot is based on [AWS Lex](https://aws.amazon.com/lex) service. It supports following use cases.
@@ -22,22 +22,20 @@ SplitSmartBot chatbot is based on [AWS Lex](https://aws.amazon.com/lex) service.
 Bot is deployed on Facebook messenger. All you need is a Facebook messenger. No additional installtion steps are required.
 You can use the bot from broswer, phone ( android, IOS) and tablets. ( Thanks to awesome integration support by AWS Lex for Facebook platform)
 
-## How to use
+## Testing instructions
 
-> **Note**: Currently SplitSmartBot is not publicly available. You have to use **Test Facebook account** mentioned below.
+> **Note**: Currently SplitSmartBot is not publicly available. As per Hackathon guidelines, we have given tester role to Facebook ID: stef.devpost.1
 
-#### Test accounts
+You also need SplitWise account. Please use following account. 
+
+#### SplitWise test account
 ```
-1. Facebook
-    - username : user1.splitsmartbot@yahoo.com
-    - password : awslex2017
-
-2. SplitWise: Create new splitwise account or use the following test account.
+2. SplitWise: 
     - username : user1.splitsmartbot@yahoo.com
     - password : awslex2017
 ```
 
-> **IMPORTANT**:  If you are using the bot for the **first time**, You need to authorize it to access your splitwise account.
+> **IMPORTANT**:  If you are using the bot for the **first time**, You need to authorize the bot to access your splitwise account.
 
 #### Access SplitSmartBot
 
@@ -62,11 +60,14 @@ A] AWS Services
    3. Dynamodb
    4. API Gateway
    5. Cloud Watch monitoring and logs
+   6. S3 for hosting lambda code.
 
-B] Programming Language:  Python 2.7
+B] SplitWise API : [API](http://dev.splitwise.com/)     
 
-C] Tools/Frameworks: [Serverless Framework](https://serverless.com/)
+C] Programming Language:  Python 2.7
 
-D] Architecture Diagram:
+D] Tools/Frameworks: [Serverless Framework](https://serverless.com/)
+
+E] Architecture Diagram:
 
 ![splitbot architecture](https://s3.amazonaws.com/splitsmartbot-2017/splitsmart-diag.png)
